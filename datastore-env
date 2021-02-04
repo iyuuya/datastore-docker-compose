@@ -13,4 +13,4 @@ fi
 DIR="$(dirname "$(readlink "$0")")"
 
 cd "$DIR" && 
-  docker-compose exec "$1" gcloud beta emulators datastore env-init
+  docker-compose exec "$1" gcloud beta emulators datastore env-init | sed "s/0.0.0.0/localhost/"
