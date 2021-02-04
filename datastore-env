@@ -1,0 +1,17 @@
+#!/bin/sh
+
+if [ $# -ne 1 ]; then
+  echo "Usage:"
+  echo
+  echo "        datastore-env [container]"
+  echo ""
+  echo "ptint  :  datastore-env store_a"
+  echo "export : \$(datastore-env store_a" 
+  exit 1
+fi
+
+DIR="$(dirname "$(readlink "$0")")"
+echo "$DIR"
+
+cd "$DIR" && 
+  docker-compose exec "$1" gcloud beta emulators datastore env-init

@@ -1,0 +1,47 @@
+version: "3"
+
+services:
+  dummy_a:
+    build:
+      context: ./docker/datastore
+    tty: true
+    environment:
+      DATASTORE_PROJECT_ID: dummy_a
+      DATASTORE_LISTEN_ADDRESS: 0.0.0.0:8080
+    ports:
+      - "10000:8080"
+    volumes:
+      - dummy_a_data:/opt/data
+      - dummy_a_config:/root/.config
+    command: --data-dir=/opt/data
+
+  dummy_b:
+    build:
+      context: ./docker/datastore
+    tty: true
+    environment:
+      DATASTORE_PROJECT_ID: dummy_b
+      DATASTORE_LISTEN_ADDRESS: 0.0.0.0:8080
+    ports:
+      - "10001:8080"
+    volumes:
+      - dummy_b_data:/opt/data
+      - dummy_b_config:/root/.config
+    command: --data-dir=/opt/data
+
+  google-cloud-gui:
+    build:
+      context: ./docker/google-cloud-gui
+    ports:
+      - "8123:8123"
+    volumes:
+      - ./gui_root:/root
+    command: "--port=8123"
+    logging:
+      driver: none
+
+volumes:
+  dummy_a_data:
+  dummy_a_config:
+  dummy_b_data:
+  dummy_b_config:
